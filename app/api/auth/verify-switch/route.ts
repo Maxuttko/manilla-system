@@ -5,18 +5,67 @@ import bcrypt from "bcryptjs";
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { targetUserId, credential } = body;
+    const { targetUserId, targetEmail, targetName, credential } = body;
 
-    if (!targetUserId || !credential) {
+    if (!credential) {
       return NextResponse.json(
         { error: "Lūdzu, ievadiet pārslēgšanas paroli vai PIN" },
         { status: 400 }
       );
     }
 
-    const user = await db.user.findUnique({
-      where: { id: targetUserId },
-    });
+    const cleanCredential = String(credential).trim();
+
+    let user = null;
+
+    // 1. Meklējam pēc ID
+    if (targetUserId) {
+      user = await db.user.findUnique({
+        where: { id: targetUserId },
+      });
+    }
+
+    // 2. Fallback: meklējam pēc e-pasta (ja ID mainījies DB pārsēšanas/migrācijas dēļ, bet pārlūkā saglabājies vecais)
+    if (!user && targetEmail) {
+      user = await db.user.findUnique({
+        where: { email: String(targetEmail).trim().toLowerCase() },
+      });
+    }
+
+    // 3. Fallback: meklējam pēc vārda
+    if (!user && targetName) {
+      user = await db.user.findFirst({
+        where: {
+          fullName: {
+            equals: String(targetName).trim(),
+          },
+          isActive: true,
+        },
+      });
+    }
+
+    // 4. Ultra-fallback vecām klientu sesijām (ja nosūtīts tikai vecais ID un 4-ciparu PIN vai parole):
+    // Ja klients ievada unikālu PIN kodu (1111, 2222, 3333) vai paroli, atrodam atbilstošo aktīvo darbinieku
+    if (!user) {
+      const userByPin = await db.user.findFirst({
+        where: {
+          quickPin: cleanCredential,
+          isActive: true,
+        },
+      });
+
+      if (userByPin) {
+        user = userByPin;
+      } else {
+        const allActive = await db.user.findMany({ where: { isActive: true } });
+        for (const candidate of allActive) {
+          if (bcrypt.compareSync(cleanCredential, candidate.passwordHash)) {
+            user = candidate;
+            break;
+          }
+        }
+      }
+    }
 
     if (!user || !user.isActive) {
       return NextResponse.json(
@@ -25,12 +74,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const cleanCredential = String(credential).trim();
-
-    // 1. Pārbaudām PIN kodu (ja uzstādīts)
     const isPinValid = user.quickPin && user.quickPin === cleanCredential;
-
-    // 2. Pārbaudām pilno paroli kā alternatīvu
     const isPasswordValid = bcrypt.compareSync(cleanCredential, user.passwordHash);
 
     if (!isPinValid && !isPasswordValid) {

@@ -80,10 +80,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     localStorage.setItem(STORAGE_ACTIVE_KEY, JSON.stringify(user));
 
     setAuthorizedUsers((prev) => {
-      const exists = prev.some((u) => u.id === user.id);
-      const updated = exists
-        ? prev.map((u) => (u.id === user.id ? user : u))
-        : [...prev, user];
+      const filtered = prev.filter(
+        (u) => u.id !== user.id && u.email?.toLowerCase() !== user.email?.toLowerCase()
+      );
+      const updated = [...filtered, user];
       localStorage.setItem(STORAGE_USERS_KEY, JSON.stringify(updated));
       return updated;
     });
@@ -96,8 +96,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     localStorage.setItem(STORAGE_ACTIVE_KEY, JSON.stringify(targetUser));
 
     setAuthorizedUsers((prev) => {
-      const exists = prev.some((u) => u.id === targetUser.id);
-      const updated = exists ? prev : [...prev, targetUser];
+      const filtered = prev.filter(
+        (u) => u.id !== targetUser.id && u.email?.toLowerCase() !== targetUser.email?.toLowerCase()
+      );
+      const updated = [...filtered, targetUser];
       localStorage.setItem(STORAGE_USERS_KEY, JSON.stringify(updated));
       return updated;
     });

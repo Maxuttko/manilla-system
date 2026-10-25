@@ -124,6 +124,8 @@ export function QuickSwitchModal({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           targetUserId: targetUser.id,
+          targetEmail: targetUser.email,
+          targetName: targetUser.fullName,
           credential: credential.trim(),
         }),
       });
