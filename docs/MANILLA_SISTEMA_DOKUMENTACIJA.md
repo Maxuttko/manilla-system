@@ -15,6 +15,8 @@ Labdien, Linda! Balstoties uz Jūsu aprakstīto uzdevumu, esmu izstrādājis spe
 Šī nav vienkārši vizuāla skice vai "bilde", bet **pilnībā funkcionējoša, reāllaika mākoņa sistēma ar pieslēgtu PostgreSQL datubāzi**. Viss, kas šeit aprakstīts, jau ir reāli ieprogrammēts, darboties spējīgs un izmēģināms dzīvē.  
 Lai demonstrācija būtu maksimāli uzskatāma un atspoguļotu veikala ikdienu, **sistēmas datubāze ir iepriekš piepildīta ar reālistiskiem testa pasūtījumiem** (faktiskajām Manilla filiālēm Tērbatas ielā un Galerijā Centrs, reāliem materiāliem, klientu mantām un plānotajiem termiņiem). Jūs varat droši brīvi spiest visas pogas, mainīt statusus, veikt jaunus pasūtījumus un reālajā laikā pārbaudīt sistēmas darbību.
 
+*Šī ir pirmā versija pamatfunkcionalitātes un darba loģikas demonstrēšanai — visas Jūsu vēlmes un ieteikumi attiecībā uz vizuālo dizainu, krāsu toņiem, izvietojumu vai papildu iespējām tiks elastīgi un precīzi ieviesti atbilstoši Manilla stilam un komandas ērtībām.*
+
 ### Kāpēc tieši šāds formāts un "Pagriezt klientam" princips:
 Šis nav publisks mārketinga e-veikals, bet **ergonomisks darba rīks planšetei pie kases un meistara galdā**, kas radīts apkalpošanas ātrumam, materiālu uzskaitei un juridiskajai drošībai:
 1. **Materiālu izvēle:** Klients ekrānā vizuāli redz papīru, lenšu un dekoru paraugus ar cenām, kas palīdz ātri pieņemt lēmumu.
