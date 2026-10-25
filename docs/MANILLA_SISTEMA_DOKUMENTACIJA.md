@@ -65,11 +65,11 @@ Katra zemāk minētā funkcija jau ir reāli uzbūvēta, notestēta un darbojas 
 * **Multi-dāvanu neatkarīgs progress (Per-gift tracking):** Ja pasūtījumā ir vairākas dāvanas, meistars darba procesā var atzīmēt katru iesaiņoto dāvanu atsevišķi (`1 no 2 iesaiņota`). Viss pasūtījums kļūst gatavs tikai tad, kad pabeigtas visas vienības.
 * **Meistara materiālu lapa:** Atverot pasūtījumu, meistars redz precīzu "savākšanas lapu" ar nepieciešamajiem metriem, loksnēm, artikuliem un atlikumiem plauktā.
 
-### 2.6. Automātiskais SMS paziņojums klientam
-* Tiklīdz pasūtījums tiek pārvietots uz statusu **"Gatavs saņemšanai"**, nostrādā SMS paziņojuma loģika.
-* Ziņas teksts precīzi atbilst Manilla prasībām:  
+### 2.6. Automātiskais SMS paziņojums klientam (Bāzes loģika)
+* **Izstrādātā funkcionalitāte:** Tiklīdz pasūtījums tiek pārvietots uz statusu **"Gatavs saņemšanai"**, nostrādā SMS paziņojuma loģika.
+* **Kanoniskais teksts:** Ziņas teksts precīzi atbilst Manilla prasībām:  
   *«Labdien! Jūsu MANILLA dāvanu iesaiņojums (#MNL-XXXX) ir gatavs saņemšanai veikalā [Filiāle, Adrese]. Gaidīsim Jūs!»*
-* Iebūvēta stingra aizsardzība pret nejaušiem dublikātiem un kļūdu fiksēšana.
+* **Drošība un audita žurnāls:** Iebūvēta aizsardzība pret dublikātiem un kļūdu fiksēšana tabulā `SmsLog`. Reālai ziņu nosūtīšanai uz klientu tālruņiem nepieciešama Latvijas mobilo sakaru operatora pieslēgšana.
 
 ### 2.7. Drukājamās 50×80 mm birkas ar skenējamu QR kodu
 * Pielāgotas uzlīmju termoprinterim (drukājas tikai pati birka 50×80 mm formātā).
@@ -89,9 +89,9 @@ Zemāk ir apkopotas lietas, kuras nepieciešams realizēt, lai sistēmu no izstr
 * **Uzdevums:** Pārbaudīt un pieslēgt veikalā esošo rokas svītrkodu skeneri (USB vai Bluetooth) un uzlīmju printeri pie planšetes.
 * **Statuss un risinājums:** Modernie svītrkodu skeneri darbojas tastatūras emulācijas režīmā (*Keyboard Wedge*) — sistēma jau tagad uztver skenera signālu bez papildu draiveru programmēšanas.
 
-### 2. Reālā SMS vārteja (LMT / Twilio API)
-* **Uzdevums:** Pieslēgt LMT biznesa SMS pakalpojumu vai Twilio ar oficiālo sūtītāja vārdu `MANILLA`.
-* **Statuss un risinājums:** Sistēmā jau ir pilnībā gatava datubāzes tabula `SmsLog`, kanoniskā teksta ģenerators un dublikātu filtrs. Atliek tikai funkcijā ievadīt API atslēgas.
+### 2. Latvijas mobilo operatoru SMS vārteja (LMT / Tele2 / Bite)
+* **Uzdevums:** Pieslēgt Latvijas mobilo sakaru operatora (piem., LMT, Bite, Tele2 vai SMS brokera) vārteju ar oficiālo sūtītāja vārdu `MANILLA`.
+* **Statuss un risinājums:** Bāzes funkcionalitāte un biznesa loģika jau ir 100% izstrādāta (automātiskie trigeri, teksta šabloni, dublikātu aizsardzība un `SmsLog` žurnāls). Reālai īsziņu nosūtīšanai uz klientu tālruņiem nepieciešams tikai pieslēgt LV operatora API atslēgas.
 
 ### 3. Paplašināts vadītāja Administrators (Admin Panel)
 * **Uzdevums:** Iespēja vadītājai (Lindai) tieši no saskarnes pievienot jaunus materiālus, mainīt cenas un ievadīt piegādātos atlikumus bez programmētāja palīdzības, kā arī pārvaldīt darbinieku kontus.
