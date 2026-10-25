@@ -2,61 +2,48 @@ import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 
 /**
- * Nodrošina, ka demonstrācijas pasūtījumu termiņi vienmēr ir svaigi un reālistiski.
- * Ja Linda vai Megija atver sistēmu pēc 24h, 48h vai nedēļas, pasūtījumi netop sarkani kavēti,
- * bet gan automātiski pielāgojas šodienas datumam.
+ * Nodrošina, ka demonstrācijas pasūtījumu termiņi ir iestatīti uz:
+ * - Pirmdienu (26. oktobris) diena un vakars (14:30 - 19:00)
+ * - Otrdienu (27. oktobris) diena un vakars (14:00 - 17:30)
+ * - Vēsturiski izsniegtie: 23. un 24. oktobris
  */
 async function ensureDemoOrdersFresh() {
   try {
     const demoRef = await db.order.findUnique({
-      where: { orderNumber: "#MNL-1048" },
+      where: { orderNumber: "#MNL-1053" },
       select: { agreedPickupTime: true },
     });
 
-    // Ja steidzamā paraugpasūtījuma termiņš beigsies tuvāko 15 min laikā vai jau ir pagātnē:
-    if (!demoRef || new Date(demoRef.agreedPickupTime).getTime() < Date.now() + 15 * 60 * 1000) {
-      const now = Date.now();
-      const tomorrowNoon = new Date();
-      tomorrowNoon.setDate(tomorrowNoon.getDate() + 1);
-      tomorrowNoon.setHours(13, 0, 0, 0);
+    // Ja kādreiz nākotnē sistēma tiek atvērta krietni vēlāk pēc 2026. gada 27. oktobra:
+    const deadlineTuesday = new Date("2026-10-27T22:00:00.000Z").getTime();
+    if (Date.now() > deadlineTuesday) {
+      // Dinamiski nobīdām uz nākamās nedēļas pirmdienu un otrdienu
+      const now = new Date();
+      const nextMon = new Date(now);
+      const day = now.getDay();
+      const diffToMon = day === 0 ? 1 : 8 - day;
+      nextMon.setDate(now.getDate() + diffToMon);
+
+      const nextTue = new Date(nextMon);
+      nextTue.setDate(nextMon.getDate() + 1);
+
+      const mon1430 = new Date(nextMon); mon1430.setHours(14, 30, 0, 0);
+      const mon1530 = new Date(nextMon); mon1530.setHours(15, 30, 0, 0);
+      const mon1700 = new Date(nextMon); mon1700.setHours(17, 0, 0, 0);
+      const mon1800 = new Date(nextMon); mon1800.setHours(18, 0, 0, 0);
+      const mon1900 = new Date(nextMon); mon1900.setHours(19, 0, 0, 0);
+
+      const tue1400 = new Date(nextTue); tue1400.setHours(14, 0, 0, 0);
+      const tue1730 = new Date(nextTue); tue1730.setHours(17, 30, 0, 0);
 
       await Promise.all([
-        db.order.updateMany({
-          where: { orderNumber: "#MNL-1051" },
-          data: { agreedPickupTime: new Date(now + 150 * 60 * 1000) }, // +2.5h
-        }),
-        db.order.updateMany({
-          where: { orderNumber: "#MNL-1052" },
-          data: { agreedPickupTime: new Date(now + 270 * 60 * 1000) }, // +4.5h
-        }),
-        db.order.updateMany({
-          where: { orderNumber: "#MNL-1053" },
-          data: { agreedPickupTime: tomorrowNoon },                     // Rīt 13:00
-        }),
-        db.order.updateMany({
-          where: { orderNumber: "#MNL-1048" },
-          data: { agreedPickupTime: new Date(now + 50 * 60 * 1000) },  // +50m (Drīz termiņš)
-        }),
-        db.order.updateMany({
-          where: { orderNumber: "#MNL-1049" },
-          data: { agreedPickupTime: new Date(now + 180 * 60 * 1000) }, // +3h
-        }),
-        db.order.updateMany({
-          where: { orderNumber: "#MNL-1045" },
-          data: { agreedPickupTime: new Date(now + 90 * 60 * 1000) },  // +1.5h
-        }),
-        db.order.updateMany({
-          where: { orderNumber: "#MNL-1046" },
-          data: { agreedPickupTime: new Date(now + 210 * 60 * 1000) }, // +3.5h
-        }),
-        db.order.updateMany({
-          where: { orderNumber: "#MNL-1039" },
-          data: { agreedPickupTime: new Date(now - 24 * 3600 * 1000) },// Vakar
-        }),
-        db.order.updateMany({
-          where: { orderNumber: "#MNL-1038" },
-          data: { agreedPickupTime: new Date(now - 48 * 3600 * 1000) },// Pirms 2 dienām
-        }),
+        db.order.updateMany({ where: { orderNumber: "#MNL-1051" }, data: { agreedPickupTime: mon1700 } }),
+        db.order.updateMany({ where: { orderNumber: "#MNL-1052" }, data: { agreedPickupTime: tue1400 } }),
+        db.order.updateMany({ where: { orderNumber: "#MNL-1053" }, data: { agreedPickupTime: tue1730 } }),
+        db.order.updateMany({ where: { orderNumber: "#MNL-1048" }, data: { agreedPickupTime: mon1430 } }),
+        db.order.updateMany({ where: { orderNumber: "#MNL-1049" }, data: { agreedPickupTime: mon1800 } }),
+        db.order.updateMany({ where: { orderNumber: "#MNL-1045" }, data: { agreedPickupTime: mon1530 } }),
+        db.order.updateMany({ where: { orderNumber: "#MNL-1046" }, data: { agreedPickupTime: mon1900 } }),
       ]);
     }
   } catch (e) {
