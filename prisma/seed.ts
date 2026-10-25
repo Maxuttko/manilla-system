@@ -304,7 +304,6 @@ async function main() {
       notes: "Klients lūdza tējkannas vāciņu un osiņu nofiksēt ar dubultu zīdpapīru.",
       laborCost: 7.0, // 2 dāvanas ārpus veikala (€3.50 x 2)
       materialsCost: 14.9,
-      provisionalLimit: 25.0,
       totalPrice: 21.9,
       paymentStatus: "NEAPMAKSATS",
       customerId: laura.id,
