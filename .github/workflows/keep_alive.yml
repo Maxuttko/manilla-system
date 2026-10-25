@@ -1,0 +1,22 @@
+name: Keep Manilla Alive
+
+on:
+  schedule:
+    # Ping every 10 minutes to prevent Render free-tier instance from sleeping
+    - cron: '*/10 * * * *'
+  workflow_dispatch:
+
+jobs:
+  ping:
+    name: Warmup Ping
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Manilla Production
+        run: |
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" https://manilla-system.onrender.com)
+          echo "Ping response status: $STATUS"
+          if [ "$STATUS" -eq 200 ]; then
+            echo "SUCCESS: MANILLA service is warm and responsive (HTTP 200 OK)."
+          else
+            echo "Notice: Response code was $STATUS."
+          fi
