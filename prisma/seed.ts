@@ -337,7 +337,6 @@ async function main() {
           {
             title: "Porcelāna tasīšu un apakštasīšu komplekts (2 gab.)",
             isThirdParty: true,
-            conditionNotes: "Vizuālu bojājumu nav. Teicamā stāvoklī.",
             photoUrl: "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=400&q=80",
             isCompleted: false,
             materials: {
@@ -391,7 +390,6 @@ async function main() {
           {
             title: "Šveices rokas pulkstenis un sudraba aproču pogas",
             isThirdParty: true,
-            conditionNotes: "Oriģinālajā futrālī. Jauns, bez defektiem.",
             photoUrl: "https://images.unsplash.com/photo-1524805444758-089113d48a6d?auto=format&fit=crop&w=400&q=80",
             isCompleted: false,
             materials: {
@@ -443,7 +441,6 @@ async function main() {
           {
             title: "Manilla 2027 Dizaina Plānotājs & Lodīšu pildspalva",
             isThirdParty: false,
-            conditionNotes: "Iegādāts Manilla veikalā pie kases.",
             photoUrl: "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=400&q=80",
             isCompleted: false,
             materials: {
@@ -506,7 +503,6 @@ async function main() {
           {
             title: "Mājas aromāta difuzors & Sojas vaska svece",
             isThirdParty: false,
-            conditionNotes: "Stikla trauks ideālā kārtībā.",
             photoUrl: "https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?auto=format&fit=crop&w=400&q=80",
             isCompleted: true, // PABEIGTA!
             materials: {
@@ -529,7 +525,6 @@ async function main() {
           {
             title: "Zīda šalle Manilla dāvanu aploksnē",
             isThirdParty: false,
-            conditionNotes: "Manilla veikala prece.",
             photoUrl: "https://images.unsplash.com/photo-1601924994987-69e26d50dc26?auto=format&fit=crop&w=400&q=80",
             isCompleted: false, // VĒL PROCESĀ
             materials: {
@@ -588,7 +583,6 @@ async function main() {
           {
             title: "Dabīgās ādas skiču klade ar zelta apmalojumu",
             isThirdParty: false,
-            conditionNotes: "Vizuālu bojājumu nav.",
             photoUrl: "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=400&q=80",
             isCompleted: false,
             materials: {
@@ -658,7 +652,6 @@ async function main() {
           {
             title: "Keramikas dizaina vāze 'Rīts pie jūras'",
             isThirdParty: true,
-            conditionNotes: "Vizuālu bojājumu nav. Trausla keramika.",
             photoUrl: "https://images.unsplash.com/photo-1612196808214-b8e1d6145a8c?auto=format&fit=crop&w=400&q=80",
             isCompleted: true,
             materials: {
@@ -726,7 +719,6 @@ async function main() {
           {
             title: "Ekskluzīvs tintes pildspalvu komplekts koka kastītē",
             isThirdParty: false,
-            conditionNotes: "Jauna Manilla prece.",
             photoUrl: "https://images.unsplash.com/photo-1585336261026-778841a5472f?auto=format&fit=crop&w=400&q=80",
             isCompleted: true,
             materials: {
@@ -798,7 +790,6 @@ async function main() {
           {
             title: "Dizaina kafijas tasīšu pāris un apakštasītes",
             isThirdParty: false,
-            conditionNotes: "Vizuālu defektu nav.",
             isCompleted: true,
             photoUrl: "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=400&q=80",
           },
@@ -849,7 +840,6 @@ async function main() {
           {
             title: "Aromātiskā kristāla eļļas lampa",
             isThirdParty: true,
-            conditionNotes: "Klienta personīgā manta. Teicamā stāvoklī.",
             isCompleted: true,
             photoUrl: "https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?auto=format&fit=crop&w=400&q=80",
           },
