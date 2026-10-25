@@ -78,37 +78,25 @@ Izstrādātais risinājums ir pilnvērtīgi funkcionējoša, mākonī izvietota 
 
 ---
 
-## 3. Kas vēl jāievieš, kādā secībā un cik tas ir sarežģīti
+## 3. Kas vēl jārealizē pilnai ieviešanai
 
-Zemāk ir apkopotas lietas, kuras nepieciešams ieviest nākamajos soļos, lai sistēmu no pilnvērtīga prototipa pārvērstu 100% integrētā ikdienas risinājumā. Tās sakārtotas pēc prioritātes un tehniskās sarežģītības:
+Zemāk ir apkopotas lietas, kuras nepieciešams realizēt, lai sistēmu no izstrādātā prototipa pilnībā ieviestu ikdienas veikala apritē:
 
-### 1. prioritāte: Fiziskās kases aparatūras savietojamība (Perifērija)
-* **Kas jādara:**  
-  * Jāpārbauda un jānokonfigurē veikalā esošais rokas svītrkodu skeneris (USB vai Bluetooth).
-  * Jāsavieno planšete ar esošo uzlīmju termoprinteri (Zebra / Brother / Xprinter).
-* **Cik sarežģīti:** **ĻOTI VIEGLI (1–2 dienu darbs).**  
-  *Modernie svītrkodu skeneri darbojas tastatūras emulācijas režīmā (Keyboard Wedge) — sistēma jau tagad klausās ievadi un ir gatava uztvert skenera signālu bez jebkādu jaunu draiveru programmēšanas.*
+### 1. Fiziskās kases aparatūras savietojamība (Perifērija)
+* **Uzdevums:** Pārbaudīt un pieslēgt veikalā esošo rokas svītrkodu skeneri (USB vai Bluetooth) un uzlīmju printeri pie planšetes.
+* **Statuss un risinājums:** Modernie svītrkodu skeneri darbojas tastatūras emulācijas režīmā (*Keyboard Wedge*) — sistēma jau tagad uztver skenera signālu bez papildu draiveru programmēšanas.
 
-### 2. prioritāte: Reālā SMS vārteja (LMT / Twilio API)
-* **Kas jādara:**  
-  * Jānoslēdz līgums vai jāpieslēdz esošais LMT biznesa SMS pakalpojums (vai Twilio), reģistrējot oficiālo sūtītāja vārdu `MANILLA`.
-  * Jāievada API atslēgas servera konfigurācijā.
-* **Cik sarežģīti:** **VIEGLI (2–3 dienu darbs).**  
-  *Sistēmā jau ir pilnībā gatava datubāzes tabula `SmsLog`, teksta veidošanas algoritms un dublikātu filtrs. Atliek tikai reālajā funkcijā izsaukt LMT servera pieprasījumu.*
+### 2. Reālā SMS vārteja (LMT / Twilio API)
+* **Uzdevums:** Pieslēgt LMT biznesa SMS pakalpojumu vai Twilio ar oficiālo sūtītāja vārdu `MANILLA`.
+* **Statuss un risinājums:** Sistēmā jau ir pilnībā gatava datubāzes tabula `SmsLog`, kanoniskā teksta ģenerators un dublikātu filtrs. Atliek tikai funkcijā ievadīt API atslēgas.
 
-### 3. prioritāte: Paplašināts vadītāja Administrators (Admin Panel)
-* **Kas jādara:**  
-  * Iespēja vadītājai (Lindai) tieši no saskarnes pievienot jaunus materiālus, mainīt cenas un ievadīt piegādātos atlikumus bez programmētāja iesaistes.
-  * Jaunu darbinieku izveide un PIN kodu maiņa.
-* **Cik sarežģīti:** **VIDĒJI (aptuveni 1 nedēļas darbs).**  
-  *Tā ir standarta CRUD funkcionalitāte, kas balstās uz jau esošajiem datubāzes modeļiem.*
+### 3. Paplašināts vadītāja Administrators (Admin Panel)
+* **Uzdevums:** Iespēja vadītājai (Lindai) tieši no saskarnes pievienot jaunus materiālus, mainīt cenas un ievadīt piegādātos atlikumus bez programmētāja palīdzības, kā arī pārvaldīt darbinieku kontus.
+* **Statuss un risinājums:** Standarta vadības panelis, kas balstās uz jau izstrādātajiem datubāzes modeļiem un loģiku.
 
-### 4. prioritāte: Noliktavas un kases aparāta (ERP/POS) integrācija
-* **Kas jādara:**  
-  * Automātiska materiālu norakstīšana no esošās veikala uzskaites sistēmas (kad dāvana pabeigta, no noliktavas "pazūd" izlietotie 1.5 metri lentes un 1 loksne papīra).
-  * Kases aparāta čeku numuru automātiska saņemšana.
-* **Cik sarežģīti:** **VIDĒJI LĪDZ SAREŽĢĪTI (atkarīgs no Manilla esošās kases programmatūras, ~2–3 nedēļas).**  
-  *Izpildes laiks un sarežģītība ir atkarīga no tā, kādu kases/noliktavas programmu Manilla šobrīd izmanto (piemēram, Erply, Directo, 1C vai Shopify POS) un vai šai programmai ir pieejams atvērts API.*
+### 4. Noliktavas un kases aparāta (ERP/POS) integrācija
+* **Uzdevums:** Automātiska materiālu norakstīšana no esošās veikala uzskaites sistēmas (kad dāvana pabeigta, no noliktavas "pazūd" izlietotie lentes metri un papīrs) un kases čeku numuru automātiska saņemšana.
+* **Statuss un risinājums:** Realizācija ir atkarīga no tā, kādu kases/noliktavas programmu Manilla šobrīd izmanto (piem., Erply, Directo, 1C vai Shopify POS) un kādas API iespējas tā piedāvā.
 
 ---
 
