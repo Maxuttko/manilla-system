@@ -1,0 +1,134 @@
+// SIA Manilla Dāvanu Iesaiņošanas Pasūtījumu Sistēma
+// Prisma datubāzes shēma (SQLite)
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model User {
+  id           String      @id @default(uuid())
+  email        String      @unique
+  passwordHash String
+  quickPin     String?     // Ātrā PIN / pārslēgšanas parole planšetei
+  fullName     String
+  role         String      @default("MEISTARS") // ADMIN | MEISTARS | KASIERIS
+  storeBranch  String      @default("Tērbatas iela 55") // Tērbatas iela 55 | TC Spice
+  isActive     Boolean     @default(true)
+  createdAt    DateTime    @default(now())
+
+  orders       Order[]
+  auditLogs    AuditLog[]
+}
+
+model Customer {
+  id        String   @id @default(uuid())
+  fullName  String
+  phone     String   @unique
+  email     String?
+  createdAt DateTime @default(now())
+
+  orders    Order[]
+}
+
+model Order {
+  id                String      @id @default(uuid())
+  orderNumber       String      @unique // piem. #MNL-1048
+  status            String      @default("PIENEMTS") // PIENEMTS | IESAINOSANA | GATAVS | IZSNIEGTS | GAIDA_SASKAŅOSANU | ATCELTS
+  storeBranch       String      @default("Tērbatas iela 55")
+  createdAt         DateTime    @default(now())
+  agreedPickupTime  DateTime
+  notes             String?
+
+  laborCost         Float       @default(2.50) // Darba samaksa (€2.50 standard, €3.50 ārpus veikala)
+  materialsCost     Float       @default(0.0)
+  provisionalLimit  Float?      // Provizoriskā maksimālā summa ar klientu
+  totalPrice        Float       @default(2.50)
+  
+  paymentStatus     String      @default("NEAPMAKSATS") // NEAPMAKSATS | DALĒJI | APMAKSATS
+  cashReceiptNumber String?     // Kases čeka numurs
+
+  customerId        String
+  customer          Customer    @relation(fields: [customerId], references: [id])
+
+  assignedUserId    String?
+  assignedUser      User?       @relation(fields: [assignedUserId], references: [id])
+
+  gifts             GiftItem[]
+  auditLogs         AuditLog[]
+  smsLogs           SmsLog[]
+}
+
+model GiftItem {
+  id              String             @id @default(uuid())
+  orderId         String
+  order           Order              @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  
+  title           String             // Dāvanas nosaukums / apraksts
+  isThirdParty    Boolean            @default(false) // Iegādāts ārpus Manilla
+  conditionNotes  String?            // Defektu, skrāpējumu, trausluma piezīmes
+  photoUrl        String?            // Foto pirms iesaiņošanas
+  isCompleted     Boolean            @default(false) // Multi-dāvanu neatkarīga pabeigšana
+  createdAt       DateTime           @default(now())
+
+  materials       OrderItemMaterial[]
+}
+
+model Material {
+  id            String              @id @default(uuid())
+  barcode       String              @unique
+  code          String              @unique
+  name          String
+  category      String              // PAPIRS | LENTE | KASTE | ZIDPAPIRS | DEKORS
+  unit          String              // LOKSNE | METRS | GAB
+  pricePerUnit  Float
+  inStock       Float               @default(100.0)
+  swatchColor   String?             // HEX krāsa vai vizuālais paraugs
+  imageUrl      String?             // Preces fotoattēls (katalogam un klienta apskatei)
+
+  orderItems    OrderItemMaterial[]
+}
+
+model OrderItemMaterial {
+  id          String    @id @default(uuid())
+  giftItemId  String
+  giftItem    GiftItem  @relation(fields: [giftItemId], references: [id], onDelete: Cascade)
+  
+  materialId  String
+  material    Material  @relation(fields: [materialId], references: [id])
+
+  quantity    Float     // Loksnes (1, 2), Metri (1.5), Gabali (1)
+  unitPrice   Float
+  subtotal    Float
+}
+
+model AuditLog {
+  id                String    @id @default(uuid())
+  orderId           String
+  order             Order     @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  userId            String?
+  user              User?     @relation(fields: [userId], references: [id])
+
+  action            String    // IZVEIDOTS | STATUS_MAINA | PARAKSTS | SMS_NOSUTITS | IZSNEIGTS
+  details           String?
+  signatureDataUrl  String?   // Klienta paraksta HTML5 Canvas bilde (Data URL / SVG)
+  ipAddress         String?   // Planšetes IP vai ierīces identifikators
+  timestamp         DateTime  @default(now())
+}
+
+model SmsLog {
+  id              String    @id @default(uuid())
+  orderId         String
+  order           Order     @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  recipientPhone  String
+  messageText     String
+  status          String    @default("DELIVERED") // PENDING | DELIVERED | FAILED
+  providerId      String?   // LMT vārtejas ID
+  sentAt          DateTime  @default(now())
+}
