@@ -282,13 +282,16 @@ async function main() {
 
   const now = new Date();
   
-  const todayIn1Hour = new Date(now.getTime() + 65 * 60 * 1000);
-  const todayIn3Hours = new Date(now.getTime() + 190 * 60 * 1000);
+  const todayIn50Min = new Date(now.getTime() + 50 * 60 * 1000); // 1 steidzams: Drīz termiņš (50m)
+  const todayIn1_5Hours = new Date(now.getTime() + 90 * 60 * 1000);
+  const todayIn2_5Hours = new Date(now.getTime() + 150 * 60 * 1000);
+  const todayIn3Hours = new Date(now.getTime() + 180 * 60 * 1000);
+  const todayIn4_5Hours = new Date(now.getTime() + 270 * 60 * 1000);
   const tomorrowNoon = new Date(now.getTime() + 24 * 3600 * 1000);
-  tomorrowNoon.setHours(12, 30, 0, 0);
+  tomorrowNoon.setHours(13, 0, 0, 0);
 
-  const yesterdayMorning = new Date(now.getTime() - 26 * 3600 * 1000);
-  const twoDaysAgo = new Date(now.getTime() - 52 * 3600 * 1000);
+  const yesterdayMorning = new Date(now.getTime() - 24 * 3600 * 1000);
+  const twoDaysAgo = new Date(now.getTime() - 48 * 3600 * 1000);
 
   // =========================================================================
   // KOLONNA 1: PIEŅEMTS (3 pasūtījumi rindā)
@@ -300,7 +303,7 @@ async function main() {
       orderNumber: "#MNL-1051",
       status: "PIENEMTS",
       storeBranch: "Tērbatas iela 55",
-      agreedPickupTime: todayIn1Hour,
+      agreedPickupTime: todayIn2_5Hours,
       notes: "Klients lūdza tējkannas vāciņu un osiņu nofiksēt ar dubultu zīdpapīru.",
       laborCost: 7.0, // 2 dāvanas ārpus veikala (€3.50 x 2)
       materialsCost: 14.9,
@@ -375,7 +378,7 @@ async function main() {
       orderNumber: "#MNL-1052",
       status: "PIENEMTS",
       storeBranch: "T/C Galerija Centrs",
-      agreedPickupTime: todayIn3Hours,
+      agreedPickupTime: todayIn4_5Hours,
       notes: "Kāzu dāvana draugam. Iesaiņot tumšā, vīrišķīgā un lakoniskā stilā.",
       laborCost: 3.5,
       materialsCost: 9.6,
@@ -488,7 +491,7 @@ async function main() {
       orderNumber: "#MNL-1048",
       status: "IESAINOSANA",
       storeBranch: "Tērbatas iela 55",
-      agreedPickupTime: todayIn1Hour,
+      agreedPickupTime: todayIn50Min,
       notes: "Dāvana ģimenei. Lūdza pieskaņot salvijas zaļos toņus.",
       laborCost: 5.0, // 2 x €2.50
       materialsCost: 11.8,
@@ -637,7 +640,7 @@ async function main() {
       orderNumber: "#MNL-1045",
       status: "GATAVS",
       storeBranch: "Tērbatas iela 55",
-      agreedPickupTime: new Date(now.getTime() - 25 * 60 * 1000), // Tikko sasniegts termiņš
+      agreedPickupTime: todayIn1_5Hours,
       notes: "Kliente lūdza nosūtīt SMS tūlīt pēc pabeigšanas.",
       laborCost: 3.5,
       materialsCost: 7.7,
@@ -705,7 +708,7 @@ async function main() {
       orderNumber: "#MNL-1046",
       status: "GATAVS",
       storeBranch: "T/C Galerija Centrs",
-      agreedPickupTime: new Date(now.getTime() - 15 * 60 * 1000),
+      agreedPickupTime: new Date(now.getTime() + 210 * 60 * 1000), // Pēc 3.5 stundām
       notes: "Klients apmaksās uz vietas pie saņemšanas.",
       laborCost: 2.5,
       materialsCost: 8.7,

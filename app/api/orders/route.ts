@@ -1,8 +1,72 @@
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 
+/**
+ * Nodrošina, ka demonstrācijas pasūtījumu termiņi vienmēr ir svaigi un reālistiski.
+ * Ja Linda vai Megija atver sistēmu pēc 24h, 48h vai nedēļas, pasūtījumi netop sarkani kavēti,
+ * bet gan automātiski pielāgojas šodienas datumam.
+ */
+async function ensureDemoOrdersFresh() {
+  try {
+    const demoRef = await db.order.findUnique({
+      where: { orderNumber: "#MNL-1048" },
+      select: { agreedPickupTime: true },
+    });
+
+    // Ja steidzamā paraugpasūtījuma termiņš beigsies tuvāko 15 min laikā vai jau ir pagātnē:
+    if (!demoRef || new Date(demoRef.agreedPickupTime).getTime() < Date.now() + 15 * 60 * 1000) {
+      const now = Date.now();
+      const tomorrowNoon = new Date();
+      tomorrowNoon.setDate(tomorrowNoon.getDate() + 1);
+      tomorrowNoon.setHours(13, 0, 0, 0);
+
+      await Promise.all([
+        db.order.updateMany({
+          where: { orderNumber: "#MNL-1051" },
+          data: { agreedPickupTime: new Date(now + 150 * 60 * 1000) }, // +2.5h
+        }),
+        db.order.updateMany({
+          where: { orderNumber: "#MNL-1052" },
+          data: { agreedPickupTime: new Date(now + 270 * 60 * 1000) }, // +4.5h
+        }),
+        db.order.updateMany({
+          where: { orderNumber: "#MNL-1053" },
+          data: { agreedPickupTime: tomorrowNoon },                     // Rīt 13:00
+        }),
+        db.order.updateMany({
+          where: { orderNumber: "#MNL-1048" },
+          data: { agreedPickupTime: new Date(now + 50 * 60 * 1000) },  // +50m (Drīz termiņš)
+        }),
+        db.order.updateMany({
+          where: { orderNumber: "#MNL-1049" },
+          data: { agreedPickupTime: new Date(now + 180 * 60 * 1000) }, // +3h
+        }),
+        db.order.updateMany({
+          where: { orderNumber: "#MNL-1045" },
+          data: { agreedPickupTime: new Date(now + 90 * 60 * 1000) },  // +1.5h
+        }),
+        db.order.updateMany({
+          where: { orderNumber: "#MNL-1046" },
+          data: { agreedPickupTime: new Date(now + 210 * 60 * 1000) }, // +3.5h
+        }),
+        db.order.updateMany({
+          where: { orderNumber: "#MNL-1039" },
+          data: { agreedPickupTime: new Date(now - 24 * 3600 * 1000) },// Vakar
+        }),
+        db.order.updateMany({
+          where: { orderNumber: "#MNL-1038" },
+          data: { agreedPickupTime: new Date(now - 48 * 3600 * 1000) },// Pirms 2 dienām
+        }),
+      ]);
+    }
+  } catch (e) {
+    console.error("Kļūda atsvaidzinot demo termiņus:", e);
+  }
+}
+
 export async function GET(request: NextRequest) {
   try {
+    await ensureDemoOrdersFresh();
     const { searchParams } = new URL(request.url);
     const search = searchParams.get("search") || "";
     const branch = searchParams.get("branch") || "";
