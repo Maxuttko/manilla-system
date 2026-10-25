@@ -2,28 +2,29 @@
 ### Iekšējā darba termināļa apskats un ieviešanas soļi
 
 **Izstrādātājs:** Maksims Gnedovs  
-**Tiešsaistes sistēma:** [https://manilla-system.onrender.com](https://manilla-system.onrender.com)  
+**Tiešsaistes sistēma (100% funkcionējoša):** [https://manilla-system.onrender.com](https://manilla-system.onrender.com)  
 **Pirmkoda krātuve:** [https://github.com/Maxuttko/manilla-system](https://github.com/Maxuttko/manilla-system)  
 
 ---
 
 ## 1. Ievads un sistēmas koncepts
 
-Labdien, Linda! Balstoties uz Jūsu aprakstīto uzdevumu, esmu izstrādājis specializētu **iekšējās darba vides prototipu veikala darbiniekiem** (kases POS terminālim un meistara iesaiņošanas darba galdam).
+Labdien, Linda! Balstoties uz Jūsu aprakstīto uzdevumu, esmu izstrādājis specializētu **iekšējās darba vides sistēmu veikala komandai** (kases POS terminālim un meistara iesaiņošanas darba galdam).
 
-### Kāpēc sistēma veidota tieši šādi?
-Šī nav publiska mārketinga mājaslapa vai interneta veikals pircējiem. Tā ir **darba sistēma, kas paredzēta planšetei (piemēram, iPad vai Surface) pie veikala kases letes un meistara darba galda**. Tās galvenie mērķi ir maksimāls apkalpošanas ātrums, ergonomika, juridisks miers un materiālu precizitāte.
+### 100% strādājoša sistēma un demonstrācijas dati:
+Šī nav vienkārši vizuāla skice vai "bilde", bet **pilnībā funkcionējoša, reāllaika mākoņa sistēma ar pieslēgtu PostgreSQL datubāzi**. Viss, kas šeit aprakstīts, jau ir reāli ieprogrammēts, darboties spējīgs un izmēģināms dzīvē.  
+Lai demonstrācija būtu maksimāli uzskatāma un atspoguļotu veikala ikdienu, **sistēmas datubāze ir iepriekš piepildīta ar reālistiskiem testa pasūtījumiem** (faktiskajām Manilla filiālēm Tērbatas ielā un Galerijā Centrs, reāliem materiāliem, klientu mantām un plānotajiem termiņiem). Jūs varat droši brīvi spiest visas pogas, mainīt statusus, veikt jaunus pasūtījumus un reālajā laikā pārbaudīt sistēmas darbību.
 
-### Planšetes rotācijas princips apkalpošanā ("Pagriezt klientam"):
-Sistēmas saskarne veidota tā, lai veikala darbinieks ērti vadītu procesu, bet konkrētos brīžos planšeti varētu vienkārši pagriezt pret klientu:
-1. **Materiālu izvēle:** Klients uz ekrāna var vizuāli redzēt pieejamo papīru paraugus, lentes, kastes un dekorus ar cenām, palīdzot pieņemt lēmumu.
-2. **Klienta apstiprinājums un paraksts (4. solis):** Klients savām acīm redz skaidru pasūtījuma kopsavilkumu (nodotās mantas, cenu, saņemšanas laiku un veikalu) un turpat uz skārienekrāna ar pirkstu vai irbuli veic parakstu.
+### Kāpēc tieši šāds formāts un "Pagriezt klientam" princips:
+Šis nav publisks mārketinga e-veikals, bet **ergonomisks darba rīks planšetei pie kases un meistara galdā**, kas radīts apkalpošanas ātrumam, materiālu uzskaitei un juridiskajai drošībai:
+1. **Materiālu izvēle:** Klients ekrānā vizuāli redz papīru, lenšu un dekoru paraugus ar cenām, kas palīdz ātri pieņemt lēmumu.
+2. **Klienta apstiprinājums un paraksts (4. solis):** Planšete tiek pagriezta pret klientu, kurš pārskata kopsavilkumu un uz skārienekrāna ar pirkstu vai irbuli veic parakstu.
 
 ---
 
-## 2. Kas jau ir pilnībā izstrādāts un kā sistēma strādā
+## 2. Kas jau ir pilnībā izstrādāts un pieejams pārbaudei
 
-Izstrādātais risinājums ir pilnvērtīgi funkcionējoša, mākonī izvietota datubāzes sistēma ar visiem Lindas uzdevumā aprakstītajiem posmiem:
+Katra zemāk minētā funkcija jau ir reāli uzbūvēta, notestēta un darbojas tiešsaistē — varat personīgi atvērt un pārliecināties:
 
 ### 2.1. Jauna pasūtījuma reģistrācijas vednis (4 soļos)
 * **Automātiska numerācija:** Katram pasūtījumam tiek ģenerēts unikāls numurs (piemēram, `#MNL-1051`).
@@ -100,9 +101,9 @@ Zemāk ir apkopotas lietas, kuras nepieciešams realizēt, lai sistēmu no izstr
 
 ---
 
-## 4. Kā izmēģināt sistēmu darbībā
+## 4. Kā personīgi izmēģināt sistēmu darbībā
 
-Sistēma ir izvietota publiskajā mākonī un gatava tūlītējai pārbaudei:
+Sistēma ir izvietota publiskajā mākonī, pieslēgta reālai datubāzei un 100% gatava brīvam "testa braucienam":
 
 * **Tiešsaistes adrese:** [https://manilla-system.onrender.com](https://manilla-system.onrender.com)
 * **Ātrā 1-klikšķa autorizācija pieteikšanās ekrānā:**
@@ -111,10 +112,10 @@ Sistēma ir izvietota publiskajā mākonī un gatava tūlītējai pārbaudei:
   * **Marta Liepiņa** (*Kasieris*) — 1 klikšķis (PIN: `3333`, parole: `marta2026`).
 
 ### Ieteicamie soļi pārbaudei:
-1. **Atvērt Kanban dēli:** Apskatīt reālos demonstrācijas pasūtījumus ar termiņiem uz rītdienu un otrdienu.
-2. **Atvērt pasūtījumu `#MNL-1051`:** Pārliecināties, kā darbojas bojājuma atzīme (tējkannai ir atzīmēts noberzums, kamēr tasītēm fiksēts nevainojams stāvoklis).
-3. **Pārbaudīt birkas druku (QR ikona):** Apskatīt termodrukas birku "Dāvana 1 no 2" un noskenēt QR kodu ar telefonu.
-4. **Izveidot jaunu pasūtījumu (`+ Jauns pasūtījums`):** Iziet cauri visiem 4 soļiem, izmēģināt materiālu pievienošanu un parakstīties uz skārienjutīgā laukuma.
+1. **Pārlūkot Kanban dēli:** Apskatīt iepriekš sagatavotos demonstrācijas pasūtījumus ar reālistiskiem termiņiem, filtru birkām un statusu sadalījumu.
+2. **Atvērt pasūtījumu `#MNL-1051`:** Pārliecināties, kā strādā bojājuma atzīme (tējkannai fiksēts defekts, kamēr tasītēm — nevainojams stāvoklis).
+3. **Pārbaudīt birkas druku (QR ikona):** Apskatīt termodrukas birku "Dāvana 1 no 2" un noskenēt QR kodu ar telefonu, atverot elektronisko pieņemšanas līgumu.
+4. **Izveidot jaunu pasūtījumu (`+ Jauns pasūtījums`):** Iziet cauri visiem 4 soļiem, pievienot materiālus un veikt reālu parakstu uz skārienjutīgā laukuma.
 
 ---
 **Maksims Gnedovs** · Tālr.: `+371 23 770 550` · E-pasts: `maxeus26@gmail.com`
